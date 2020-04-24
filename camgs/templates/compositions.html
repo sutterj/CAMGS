@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}My Compositions{% endblock %}
+
+{% block content %}
+  <h2 style="margin: 28px;">My Compositions</h2>
+    <div style="margin: 28px;">
+      <button class="btn btn-primary" type="button" style="background-color: rgb(48,48,48);"><a class="text-light" href="{% url 'create' %}">Create New Composition</a></button>
+    </div>
+    {% for composition in compositions %}
+      <div style="margin: 28px;">
+        <div style="background-color: #c1c1c1; padding: 20px;">
+          <h3>{{ composition.title }}</h3>
+            <p>
+              Composer: {{ composition.composer }}<br>
+              Tempo: {{ composition.tempo }}<br>
+              Beatunit: {{ composition.beatunit }}<br>
+              Division: {{ composition.division }}
+            </p>
+            <a class="text-body" href="{% url 'edit' composition.slug %}">Edit Composition Parameters</a><br>
+            <a class="text-body" href="{% url 'entry' composition.id %}">Enter Notes</a>
+        </div>
+      </div>
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}Note Entry{% endblock %}
+
+{% block content %}
+  <h2 style="margin: 28px;">Note Entry</h2>
+    <div class="text-nowrap flex-nowrap" style="overflow-x: scroll;margin: 28px;">
+      <div class="row no-gutters text-nowrap flex-nowrap" style="height: 300px;">
+        {% for note in notes %}
+          <div class="col-auto text-center" style="padding: 5px;">
+            <p>{{ note.duration }}</p>
+            <p>{{ note.pitch }}</p>
+            <p>{{ note.octave }}</p>
+            <p>{{ note.accidental }}</p>
+            <a class="text-dark" href="#">Edit Note</a>
+          </div>
+        {% endfor %}
+        <div class="col-auto" style="padding: 5px;">
+          <form>
+            <form method="post">
+              {% csrf_token %}
+              {{ form.as_p }}
+              <input type="submit" value="Save">
+          </form>
+        </div>
+        <div class="col-auto text-center d-xl-flex align-items-xl-center" style="padding: 5px;">
+          <a href="#"><img class="d-xl-flex justify-content-xl-center"></a>
+        </div>
+      </div>
+    </div>
+{% endblock %}

@@ -63,26 +63,16 @@ class CustomUser(AbstractUser):
 class Composition(models.Model):
     id = models.AutoField(primary_key=True)
     slug = models.SlugField(unique=True, blank=True)
-    user = models.ForeignKey(CustomUser,
-                             default=None,
-                             on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        CustomUser, default=None, on_delete=models.CASCADE
+    )
     title = models.CharField(default='untitled', max_length=250)
     composer = models.CharField(default='none', max_length=250)
     tempo = models.IntegerField(default=120)
-    beatunit = models.CharField(max_length=4, default=4)
-    CUT = '2'
-    COMMON = '4'
-    EIGHT = '8'
-    SIXTEEN = '16'
-    DIVISIONS = [
-        (CUT, '2'),
-        (COMMON, '4'),
-        (EIGHT, '8'),
-        (SIXTEEN, '16'),
+    METERS = [
+        ('2/4', '2/4'), ('3/4', '3/4'), ('4/4', '4/4'),
     ]
-    division = models.CharField(max_length=2,
-                                choices=DIVISIONS,
-                                default=COMMON)
+    meter = models.CharField(choices=METERS, default='4/4', max_length=3)
     data = models.TextField(blank=True)
     file = models.FileField(upload_to=user_directory_path, blank=True)
 
@@ -92,7 +82,7 @@ class Composition(models.Model):
             user = None
         if not self.pk:
             self.user = user
-        slug = "%s" % (self.title)
+        slug = '%s' % (self.title)
         unique_slugify(self, slug)
         super(Composition, self).save(*args, **kwargs)
 
@@ -103,58 +93,36 @@ class Composition(models.Model):
 class NoteObject(models.Model):
     id = models.AutoField(primary_key=True)
     composition = models.ForeignKey(Composition, on_delete=models.CASCADE)
-    WHOLE = 4
-    DOTHALF = 3
-    HALF = 2
-    DOTQUARTER = 1.5
-    QUARTER = 1
-    DOTEIGHTH = 0.75
-    EIGHTH = 0.5
-    DOTSIXTEENTH = 0.375
-    SIXTEENTH = 0.25
-    DURATIONS = [
-        (WHOLE, '16'),
-        (DOTHALF, '12'),
-        (HALF, '8'),
-        (DOTQUARTER, '6'),
-        (QUARTER, '4'),
-        (DOTEIGHTH, '3'),
-        (EIGHTH, '2'),
-        (DOTSIXTEENTH, '1.5'),
-        (SIXTEENTH, '1'),
-    ]
-    duration = models.DecimalField(max_digits=5,
-                                   decimal_places=3,
-                                   choices=DURATIONS,
-                                   default=QUARTER)
+    order = models.DecimalField(default=1, max_digits=10, decimal_places=1)
     PITCHES = [
-        ('C', 'C'),
-        ('D', 'D'),
-        ('E', 'E'),
-        ('F', 'F'),
-        ('G', 'G'),
-        ('A', 'A'),
-        ('B', 'B'),
+        ('C3', 1), ('D3', 2), ('E3', 3), ('F3', 4),
+        ('G3', 5), ('A3', 6), ('B3', 7), ('C4', 8),
+        ('D4', 9), ('E4', 10), ('F4', 11), ('G4', 12),
+        ('A4', 13), ('B4', 14), ('C5', 15), ('D5', 16),
+        ('E5', 17), ('F5', 18), ('G5', 19), ('A5', 20),
+        ('B5', 21), ('C6', 22),
     ]
-    pitch = models.CharField(max_length=1,
-                             choices=PITCHES,
-                             default='C')
+    pitch = models.CharField(choices=PITCHES, default=8, max_length=2)
+    DURATIONS = [
+        ('4', 4),
+        ('3', 3),
+        ('2', 2),
+        ('1.5', 1.5),
+        ('1', 1),
+        ('0.75', 0.75),
+        ('0.5', 0.5),
+        ('0.375', 0.375),
+        ('0.25', 0.25),
+    ]
+    duration = models.CharField(choices=DURATIONS, max_length=5, default=1)
     ACCIDENTALS = [
         ('double-flat', 'double-flat'),
         ('flat', 'flat'),
         ('natural', 'natural'),
         ('sharp', 'sharp'),
         ('double-sharp', 'double-sharp'),
-        ('', 'none'),
+        (' ', ' '),
     ]
-    accidental = models.CharField(max_length=12,
-                                  choices=ACCIDENTALS,
-                                  default='',
-                                  blank=True)
-    OCTAVES = [
-        (3, '3'),
-        (4, '4'),
-        (5, '5'),
-        (6, '6'),
-    ]
-    octave = models.IntegerField(choices=OCTAVES, default='4')
+    accidental = models.CharField(
+        max_length=12, choices=ACCIDENTALS, default=' '
+    )

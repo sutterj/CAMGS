@@ -14,7 +14,7 @@ class SignupView(CreateView):
 class CompositionCreateView(CreateView):
     model = Composition
     template_name = 'create.html'
-    fields = ['title', 'composer', 'tempo', 'beatunit', 'division']
+    fields = ['title', 'composer', 'tempo', 'meter']
     success_url = reverse_lazy('compositions')
 
 
@@ -41,13 +41,22 @@ class CompositionEditView(UpdateView):
 class NoteCreateView(CreateView):
     model = NoteObject
     template_name = 'entry.html'
-    fields = fields = ['duration', 'pitch', 'accidental', 'octave']
-    success_url = reverse_lazy('entry')
+    fields = ['order', 'pitch', 'duration', 'accidental']
+    success_url = reverse_lazy('compositions')
 
     def get_context_data(self, **kwargs):
         kwargs['notes'] = NoteObject.objects.filter(
             composition=self.kwargs['composition'])
         return super(NoteCreateView, self).get_context_data(**kwargs)
+
+    def dispatch(self, request, *args, **kwargs):
+        self.composition = Composition.objects.values_list(
+            'id').filter(pk=kwargs['composition'])
+        return super().dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        form.instance.composition_id = self.composition
+        return super().form_valid(form)
 
 
 class NoteEditView(UpdateView):

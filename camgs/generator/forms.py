@@ -18,10 +18,10 @@ class CustomUserChangeForm(UserChangeForm):
 class CompositionEditForm(ModelForm):
     class Meta:
         model = Composition
-        fields = ['title', 'composer', 'tempo', 'beatunit', 'division']
+        fields = ['title', 'composer', 'tempo', 'meter']
 
 
 class NoteEditForm(ModelForm):
     class Meta:
         model = NoteObject
-        fields = ['duration', 'pitch', 'accidental', 'octave']
+        fields = ['order', 'pitch', 'duration', 'accidental']

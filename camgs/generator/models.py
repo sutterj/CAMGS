@@ -69,9 +69,7 @@ class Composition(models.Model):
     title = models.CharField(default='untitled', max_length=250)
     composer = models.CharField(default='none', max_length=250)
     tempo = models.IntegerField(default=120)
-    METERS = [
-        ('2/4', '2/4'), ('3/4', '3/4'), ('4/4', '4/4'),
-    ]
+    METERS = [('2/4', '2/4'), ('3/4', '3/4'), ('4/4', '4/4')]
     meter = models.CharField(choices=METERS, default='4/4', max_length=3)
     data = models.TextField(blank=True)
     file = models.FileField(upload_to=user_directory_path, blank=True)
@@ -100,7 +98,7 @@ class NoteObject(models.Model):
         ('D4', 9), ('E4', 10), ('F4', 11), ('G4', 12),
         ('A4', 13), ('B4', 14), ('C5', 15), ('D5', 16),
         ('E5', 17), ('F5', 18), ('G5', 19), ('A5', 20),
-        ('B5', 21), ('C6', 22),
+        ('B5', 21), ('C6', 22)
     ]
     pitch = models.CharField(choices=PITCHES, default=8, max_length=2)
     DURATIONS = [
@@ -112,7 +110,7 @@ class NoteObject(models.Model):
         ('0.75', 0.75),
         ('0.5', 0.5),
         ('0.375', 0.375),
-        ('0.25', 0.25),
+        ('0.25', 0.25)
     ]
     duration = models.CharField(choices=DURATIONS, max_length=5, default=1)
     ACCIDENTALS = [
@@ -121,7 +119,7 @@ class NoteObject(models.Model):
         ('natural', 'natural'),
         ('sharp', 'sharp'),
         ('double-sharp', 'double-sharp'),
-        (' ', ' '),
+        (' ', ' ')
     ]
     accidental = models.CharField(
         max_length=12, choices=ACCIDENTALS, default=' '

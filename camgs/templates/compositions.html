@@ -14,8 +14,7 @@
             <p>
               Composer: {{ composition.composer }}<br>
               Tempo: {{ composition.tempo }}<br>
-              Beatunit: {{ composition.beatunit }}<br>
-              Division: {{ composition.division }}
+              Meter: {{ composition.meter }}
             </p>
             <a class="text-body" href="{% url 'edit' composition.slug %}">Edit Composition Parameters</a><br>
             <a class="text-body" href="{% url 'entry' composition.id %}">Enter Notes</a>

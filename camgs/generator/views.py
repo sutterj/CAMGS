@@ -1,7 +1,8 @@
 from django.urls import reverse_lazy
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView, UpdateView, FormView
 from django.views.generic.list import ListView
-from .forms import CustomUserCreationForm, CompositionEditForm, NoteEditForm
+from .forms import CustomUserCreationForm
+from .forms import CompositionEditForm, NoteEditForm, NoteCreateForm
 from generator.models import Composition, NoteObject
 
 
@@ -38,15 +39,14 @@ class CompositionEditView(UpdateView):
         return composition
 
 
-class NoteCreateView(CreateView):
-    model = NoteObject
+class NoteCreateView(FormView):
+    form_class = NoteCreateForm
     template_name = 'entry.html'
-    fields = ['order', 'pitch', 'duration', 'accidental']
     success_url = reverse_lazy('compositions')
 
     def get_context_data(self, **kwargs):
         kwargs['notes'] = NoteObject.objects.filter(
-            composition=self.kwargs['composition'])
+            composition=self.kwargs['composition']).order_by('order')
         return super(NoteCreateView, self).get_context_data(**kwargs)
 
     def dispatch(self, request, *args, **kwargs):
@@ -56,11 +56,16 @@ class NoteCreateView(CreateView):
 
     def form_valid(self, form):
         form.instance.composition_id = self.composition
+        form.save()
         return super().form_valid(form)
 
 
 class NoteEditView(UpdateView):
     model = NoteObject
     form_class = NoteEditForm
-    template_name = 'noteedit.html'
-    success_url = reverse_lazy('noteedit')
+    template_name = 'note.html'
+    success_url = reverse_lazy('compositions')
+
+    def generator_view(self, **kwargs):
+        note = super().get_context_data(**kwargs)
+        return note

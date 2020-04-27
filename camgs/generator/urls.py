@@ -10,4 +10,6 @@ urlpatterns = [
          name='edit'),
     path('entry/<composition>/',
          views.NoteCreateView.as_view(), name='entry'),
+    path('note/<pk>/', views.NoteEditView.as_view(),
+         name='note'),
 ]

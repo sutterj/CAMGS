@@ -71,7 +71,6 @@ class Composition(models.Model):
     tempo = models.IntegerField(default=120)
     METERS = [('2/4', '2/4'), ('3/4', '3/4'), ('4/4', '4/4')]
     meter = models.CharField(choices=METERS, default='4/4', max_length=3)
-    data = models.TextField(blank=True)
     file = models.FileField(upload_to=user_directory_path, blank=True)
 
     def save(self, *args, **kwargs):

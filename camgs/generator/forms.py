@@ -1,6 +1,6 @@
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from .models import CustomUser, Composition, NoteObject
-from django.forms import ModelForm
+from django.forms import ModelForm, RadioSelect
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -18,10 +18,19 @@ class CustomUserChangeForm(UserChangeForm):
 class CompositionEditForm(ModelForm):
     class Meta:
         model = Composition
-        fields = ['title', 'composer', 'tempo', 'beatunit', 'division']
+        fields = ['title', 'composer', 'tempo', 'meter']
+
+
+class NoteCreateForm(ModelForm):
+    class Meta:
+        model = NoteObject
+        fields = ['order', 'pitch', 'duration', 'accidental']
+        widgets = {
+            'pitch': RadioSelect()
+        }
 
 
 class NoteEditForm(ModelForm):
     class Meta:
         model = NoteObject
-        fields = ['duration', 'pitch', 'accidental', 'octave']
+        fields = ['order', 'pitch', 'duration', 'accidental']

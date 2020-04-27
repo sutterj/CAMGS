@@ -1,30 +1,117 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block title %}Note Entry{% endblock %}
 
 {% block content %}
   <h2 style="margin: 28px;">Note Entry</h2>
+    <div class="text-center">
+      <button class="btn btn-primary" type="button" style="background-color: rgb(48,48,48);margin: 10px;">
+        <a class="text-light" href="#">Generate Notation</a>
+      </button>
+      <button class="btn btn-primary" type="button" style="background-color: rgb(48,48,48);margin: 10px;">
+        <a class="text-light" href="#">Generate Playback</a>
+      </button>
+      <button class="btn btn-primary" type="button" style="background-color: rgb(48,48,48);margin: 10px;">
+        <a class="text-light" href="#">Generate Analysis</a>
+      </button>
+      <button class="btn btn-primary" type="button" style="background-color: rgb(48,48,48);margin: 10px;">
+        <a class="text-light" href="#">Exit Note Entry</a>
+      </button>
+    </div>
     <div class="text-nowrap flex-nowrap" style="overflow-x: scroll;margin: 28px;">
-      <div class="row no-gutters text-nowrap flex-nowrap" style="height: 300px;">
+      <div class="row no-gutters text-nowrap flex-nowrap">
         {% for note in notes %}
           <div class="col-auto text-center" style="padding: 5px;">
-            <p>{{ note.duration }}</p>
-            <p>{{ note.pitch }}</p>
-            <p>{{ note.octave }}</p>
-            <p>{{ note.accidental }}</p>
-            <a class="text-dark" href="#">Edit Note</a>
+            <div style="height: 120px;">
+              <p>Order: {{ note.order }}</p>
+              <p>Duration:<br>{{ note.duration }}<br>{{ note.accidental }}</p>
+            </div>
+            <div>
+              {% if note.pitch == "C3" %}
+                <img src="{% static 'assets/img/note_boxes/note_box1.png' %}">
+              {% elif note.pitch == "D3" %}
+                <img src="{% static 'assets/img/note_boxes/note_box2.png' %}">
+              {% elif note.pitch == "E3" %}
+                <img src="{% static 'assets/img/note_boxes/note_box3.png' %}">
+              {% elif note.pitch == "F3" %}
+                <img src="{% static 'assets/img/note_boxes/note_box4.png' %}">
+              {% elif note.pitch == "G3" %}
+                <img src="{% static 'assets/img/note_boxes/note_box5.png' %}">
+              {% elif note.pitch == "A3" %}
+                <img src="{% static 'assets/img/note_boxes/note_box6.png' %}">
+              {% elif note.pitch == "B3" %}
+                <img src="{% static 'assets/img/note_boxes/note_box7.png' %}">
+              {% elif note.pitch == "C4" %}
+                <img src="{% static 'assets/img/note_boxes/note_box8.png' %}">
+              {% elif note.pitch == "D4" %}
+                <img src="{% static 'assets/img/note_boxes/note_box9.png' %}">
+              {% elif note.pitch == "E4" %}
+                <img src="{% static 'assets/img/note_boxes/note_box10.png' %}">
+              {% elif note.pitch == "F4" %}
+                <img src="{% static 'assets/img/note_boxes/note_box11.png' %}">
+              {% elif note.pitch == "G4" %}
+                <img src="{% static 'assets/img/note_boxes/note_box12.png' %}">
+              {% elif note.pitch == "A4" %}
+                <img src="{% static 'assets/img/note_boxes/note_box13.png' %}">
+              {% elif note.pitch == "B4" %}
+                <img src="{% static 'assets/img/note_boxes/note_box14.png' %}">
+              {% elif note.pitch == "C5" %}
+                <img src="{% static 'assets/img/note_boxes/note_box15.png' %}">
+              {% elif note.pitch == "D5" %}
+                <img src="{% static 'assets/img/note_boxes/note_box16.png' %}">
+              {% elif note.pitch == "E5" %}
+                <img src="{% static 'assets/img/note_boxes/note_box17.png' %}">
+              {% elif note.pitch == "F5" %}
+                <img src="{% static 'assets/img/note_boxes/note_box18.png' %}">
+              {% elif note.pitch == "G5" %}
+                <img src="{% static 'assets/img/note_boxes/note_box19.png' %}">
+              {% elif note.pitch == "A5" %}
+                <img src="{% static 'assets/img/note_boxes/note_box20.png' %}">
+              {% elif note.pitch == "B5" %}
+                <img src="{% static 'assets/img/note_boxes/note_box21.png' %}">
+              {% elif note.pitch == "C6" %}
+                <img src="{% static 'assets/img/note_boxes/note_box22.png' %}">
+              {% endif %}
+            </div>
+            <div><br><a class="text-dark" href="{% url 'note' note.id %}">Edit Note</a></div>
           </div>
         {% endfor %}
         <div class="col-auto" style="padding: 5px;">
-          <form>
+          <div>
             <form method="post">
               {% csrf_token %}
-              {{ form.as_p }}
-              <input type="submit" value="Save">
-          </form>
-        </div>
-        <div class="col-auto text-center d-xl-flex align-items-xl-center" style="padding: 5px;">
-          <a href="#"><img class="d-xl-flex justify-content-xl-center"></a>
+              {{ form.non_field_errors }}
+              <div style="height: 123px;">
+                <div class="fieldWrapper">
+                  {{ form.order.errors }}
+                  <label for="{{ form.order.id_for_label }}">Order:</label>
+                  {{ form.order }}
+                </div>
+                <div class="fieldWrapper">
+                  {{ form.duration.errors }}
+                  <label for="{{ form.duration.id_for_label }}">Duration:</label>
+                  {{ form.duration }}
+                </div>
+                <div class="fieldWrapper">
+                  {{ form.accidental.errors }}
+                  <label for="{{ form.accidental.id_for_label }}">Accidental:</label>
+                  {{ form.accidental }}
+                </div>
+              </div>
+              <div>
+                {% for radio in form.pitch %}
+                  <label for="{{ radio.id_for_label }}" style="line-height: 0px; margin: 0.052in">
+                    <span class="radio">{{ radio.tag }}</span>
+                  </label><br>
+                {% endfor %}
+              </div>
+              <div>
+                <br><input type="submit" value="Save">
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>

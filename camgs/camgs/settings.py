@@ -136,8 +136,8 @@ STATICFILES_DIRS = [
 
 # User uploaded files
 
-MEDIA_URL = '/user_pieces/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'user_pieces')
+MEDIA_URL = '/user_data/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'user_data')
 
 
 # Custom user config

@@ -8,6 +8,8 @@ urlpatterns = [
          name='compositions'),
     path('edit/<slug:slug>/', views.CompositionEditView.as_view(),
          name='edit'),
-    path('enrty/<composition>/',
+    path('entry/<composition>/',
          views.NoteCreateView.as_view(), name='entry'),
+    path('note/<pk>/', views.NoteEditView.as_view(),
+         name='note'),
 ]

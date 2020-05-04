@@ -69,9 +69,15 @@ class Composition(models.Model):
     title = models.CharField(default='untitled', max_length=250)
     composer = models.CharField(default='none', max_length=250)
     tempo = models.IntegerField(default=120)
-    METERS = [('2/4', '2/4'), ('3/4', '3/4'), ('4/4', '4/4')]
-    meter = models.CharField(choices=METERS, default='4/4', max_length=3)
-    file = models.FileField(upload_to=user_directory_path, blank=True)
+    BASE_DURATIONS = [('2', 2), ('4', 4), ('8', 8), ('16', 16)]
+    base_duration = models.CharField(
+        choices=BASE_DURATIONS, default='4', max_length=2
+    )
+    bar_beat = models.CharField(default='4', max_length=2)
+    ENHARMONICS = [('sharp', 'sharp'), ('flat', 'flat')]
+    enharmonic = models.CharField(
+        choices=ENHARMONICS, default='sharp', max_length=5
+    )
 
     def save(self, *args, **kwargs):
         user = get_current_user()
@@ -90,16 +96,22 @@ class Composition(models.Model):
 class NoteObject(models.Model):
     id = models.AutoField(primary_key=True)
     composition = models.ForeignKey(Composition, on_delete=models.CASCADE)
-    order = models.DecimalField(default=1, max_digits=10, decimal_places=1)
+    order = models.DecimalField(
+        unique=True, default=1, max_digits=10, decimal_places=1
+    )
     PITCHES = [
-        ('C3', 1), ('D3', 2), ('E3', 3), ('F3', 4),
-        ('G3', 5), ('A3', 6), ('B3', 7), ('C4', 8),
-        ('D4', 9), ('E4', 10), ('F4', 11), ('G4', 12),
-        ('A4', 13), ('B4', 14), ('C5', 15), ('D5', 16),
-        ('E5', 17), ('F5', 18), ('G5', 19), ('A5', 20),
-        ('B5', 21), ('C6', 22)
+        ('rest', 'rest'), ('C6', 'C6'),
+        ('B5', 'B5'), ('A#5', 'A#5'), ('A5', 'A5'), ('G#5', 'G#5'),
+        ('G5', 'G5'), ('F#5', 'F#5'), ('F5', 'F5'), ('E5', 'E5'),
+        ('D#5', 'D#5'), ('D5', 'D5'), ('C#5', 'C#5'), ('C5', 'C5'),
+        ('B4', 'B4'), ('A#4', 'A#4'), ('A4', 'A4'), ('G#4', 'G#4'),
+        ('G4', 'G4'), ('F#4', 'F#4'), ('F4', 'F4'), ('E4', 'E4'),
+        ('D#4', 'D#4'), ('D4', 'D4'), ('C#4', 'C#4'), ('C4', 'C4'),
+        ('B3', 'B3'), ('A#3', 'A#3'), ('A3', 'A3'), ('G#3', 'G#3'),
+        ('G3', 'G3'), ('F#3', 'F#3'), ('F3', 'F3'), ('E3', 'E3'),
+        ('D#3', 'D#3'), ('D3', 'D3'), ('C#3', 'C#3'), ('C3', 'C3')
     ]
-    pitch = models.CharField(choices=PITCHES, default=8, max_length=2)
+    pitch = models.CharField(choices=PITCHES, default='C4', max_length=4)
     DURATIONS = [
         ('4', 4),
         ('3', 3),
@@ -112,14 +124,3 @@ class NoteObject(models.Model):
         ('0.25', 0.25)
     ]
     duration = models.CharField(choices=DURATIONS, max_length=5, default=1)
-    ACCIDENTALS = [
-        ('double-flat', 'double-flat'),
-        ('flat', 'flat'),
-        ('natural', 'natural'),
-        ('sharp', 'sharp'),
-        ('double-sharp', 'double-sharp'),
-        (' ', ' ')
-    ]
-    accidental = models.CharField(
-        max_length=12, choices=ACCIDENTALS, default=' '
-    )

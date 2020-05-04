@@ -18,13 +18,16 @@ class CustomUserChangeForm(UserChangeForm):
 class CompositionEditForm(ModelForm):
     class Meta:
         model = Composition
-        fields = ['title', 'composer', 'tempo', 'meter']
+        fields = [
+            'title', 'composer', 'tempo',
+            'bar_beat', 'base_duration', 'enharmonic'
+        ]
 
 
 class NoteCreateForm(ModelForm):
     class Meta:
         model = NoteObject
-        fields = ['order', 'pitch', 'duration', 'accidental']
+        fields = ['order', 'pitch', 'duration']
         widgets = {
             'pitch': RadioSelect()
         }
@@ -33,4 +36,4 @@ class NoteCreateForm(ModelForm):
 class NoteEditForm(ModelForm):
     class Meta:
         model = NoteObject
-        fields = ['order', 'pitch', 'duration', 'accidental']
+        fields = ['order', 'pitch', 'duration']

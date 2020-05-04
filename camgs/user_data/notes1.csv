@@ -1,0 +1,8 @@
+id,duration,composition_id,order,pitch
+1,1,1,1,C4
+2,2,1,2,D5
+3,1,1,3,C5
+4,0.5,1,4,B4
+5,0.5,1,5,rest
+6,4,1,6,C5
+7,3,1,7,C#5

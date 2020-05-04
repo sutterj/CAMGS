@@ -14,7 +14,7 @@
             <p>
               Composer: {{ composition.composer }}<br>
               Tempo: {{ composition.tempo }}<br>
-              Meter: {{ composition.meter }}
+              Meter: {{ composition.bar_beat }} / {{ composition.base_duration }}
             </p>
             <a class="text-body" href="{% url 'edit' composition.slug %}">Edit Composition Parameters</a><br>
             <a class="text-body" href="{% url 'entry' composition.id %}">Enter Notes</a>

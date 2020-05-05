@@ -69,11 +69,11 @@ class Composition(models.Model):
     title = models.CharField(default='untitled', max_length=250)
     composer = models.CharField(default='none', max_length=250)
     tempo = models.IntegerField(default=120)
-    BASE_DURATIONS = [('2', 2), ('4', 4), ('8', 8), ('16', 16)]
-    base_duration = models.CharField(
-        choices=BASE_DURATIONS, default='4', max_length=2
+    BASE_BEATS = [('2', 2), ('4', 4), ('8', 8), ('16', 16)]
+    base_beat = models.CharField(
+        choices=BASE_BEATS, default='4', max_length=2
     )
-    bar_beat = models.CharField(default='4', max_length=2)
+    beats_per_bar = models.CharField(default='4', max_length=2)
     ENHARMONICS = [('sharp', 'sharp'), ('flat', 'flat')]
     enharmonic = models.CharField(
         choices=ENHARMONICS, default='sharp', max_length=5

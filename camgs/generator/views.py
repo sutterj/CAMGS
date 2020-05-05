@@ -15,7 +15,7 @@ class SignupView(CreateView):
 class CompositionCreateView(CreateView):
     model = Composition
     template_name = 'create.html'
-    fields = ['title', 'composer', 'tempo', 'base_duration', 'bar_beat']
+    fields = ['title', 'composer', 'tempo', 'base_beat', 'beats_per_bar']
     success_url = reverse_lazy('compositions')
 
 

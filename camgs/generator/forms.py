@@ -20,7 +20,7 @@ class CompositionEditForm(ModelForm):
         model = Composition
         fields = [
             'title', 'composer', 'tempo',
-            'bar_beat', 'base_duration', 'enharmonic'
+            'base_beat', 'beats_per_bar', 'enharmonic'
         ]
 
 

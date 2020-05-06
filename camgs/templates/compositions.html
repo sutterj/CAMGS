@@ -16,6 +16,8 @@
               Tempo: {{ composition.tempo }}<br>
               Meter: {{ composition.beats_per_bar }} / {{ composition.base_beat }}
             </p>
+            <a class="text-body" href="#" onClick="MIDIjs.play('/user_data/midi{{ composition.id }}.midi');">Play {{ composition.title }}</a><br>
+            <a class="text-body" href="#" onClick="MIDIjs.stop();">Stop Playback</a><br>
             <a class="text-body" href="{% url 'edit' composition.slug %}">Edit Composition Parameters</a><br>
             <a class="text-body" href="{% url 'entry' composition.id %}">Enter Notes</a>
         </div>

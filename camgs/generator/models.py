@@ -96,9 +96,7 @@ class Composition(models.Model):
 class NoteObject(models.Model):
     id = models.AutoField(primary_key=True)
     composition = models.ForeignKey(Composition, on_delete=models.CASCADE)
-    order = models.DecimalField(
-        unique=True, default=1, max_digits=10, decimal_places=1
-    )
+    order = models.DecimalField(default=1, max_digits=10, decimal_places=1)
     PITCHES = [
         ('rest', 'rest'), ('C6', 'C6'),
         ('B5', 'B5'), ('A#5', 'A#5'), ('A5', 'A5'), ('G#5', 'G#5'),

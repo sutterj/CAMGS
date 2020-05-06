@@ -19,7 +19,7 @@ def build_csv(value_id):
     cursor = connection.cursor()
     cursor.execute(
          'SELECT * FROM generator_noteobject WHERE composition_id IS '
-         + value_id + ' ORDER BY order ASC')
+         + value_id)
     csv_file = open('../user_data/notes' + value_id + '.csv', 'w')
     csv_writer = csv.writer(csv_file, delimiter=",")
     csv_writer.writerow([i[0] for i in cursor.description])

@@ -8,7 +8,7 @@ def parse_data(note_stream, value_id):
     composition_reader = csv.DictReader(composition_file)
 
     for row in composition_reader:
-        composition_meter = row['bar_beat'] + '/' + row['base_duration']
+        composition_meter = row['beats_per_bar'] + '/' + row['base_beat']
         switch_enharmonic = row['enharmonic']
         tempo_value = row['tempo']
     note_stream.timeSignature = meter.TimeSignature(composition_meter)
